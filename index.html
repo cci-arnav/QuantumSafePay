@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QuantumSafePay — Quantum-Resistant Payment Infrastructure for India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-950:#080E1F;
+  --navy-900:#0E1830;
+  --navy-800:#1B2A52;
+  --ink:#0F1830;
+  --blue:#2F6FED;
+  --blue-deep:#173B8C;
+  --cyan:#3FD3F0;
+  --bg:#F3F6FC;
+  --bg-panel:#FFFFFF;
+  --line:rgba(15,24,48,0.10);
+  --line-strong:rgba(15,24,48,0.18);
+  --muted:#525C74;
+  --muted-2:#8791A6;
+  --success:#189A6E;
+  --success-bg:#E5F7F0;
+  --warn:#B9820A;
+  --warn-bg:#FCF3DA;
+  --danger:#D8392F;
+  --danger-bg:#FBE7E5;
+  --grad-brand:linear-gradient(135deg,#173B8C 0%,#2F6FED 55%,#3FD3F0 100%);
+  --grad-brand-soft:linear-gradient(135deg,rgba(23,59,140,0.08),rgba(63,211,240,0.08));
+  --shadow-sm:0 2px 10px -4px rgba(15,24,48,0.10);
+  --shadow-md:0 14px 34px -14px rgba(15,24,48,0.20);
+  --shadow-lg:0 30px 70px -24px rgba(23,59,140,0.28);
+  --radius:14px;
+  --maxw:1180px;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Inter',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased;}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.001ms !important;transition-duration:.001ms !important;}}
+a{color:inherit;text-decoration:none;}
+ul{list-style:none;}
+img{max-width:100%;display:block;}
+button{font-family:inherit;}
+input,select{font-family:inherit;}
+:focus-visible{outline:2px solid var(--cyan);outline-offset:3px;border-radius:4px;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 32px;}
+h1,h2,h3,h4{font-family:var(--font-display);color:var(--ink);letter-spacing:-0.01em;}
+h1{font-size:clamp(30px,4.2vw,48px);line-height:1.1;font-weight:800;}
+h2{font-size:clamp(24px,3vw,32px);line-height:1.2;font-weight:700;}
+h3{font-size:18px;font-weight:700;line-height:1.35;}
+p{color:var(--muted);}
+.lead{font-size:17px;color:var(--muted);max-width:620px;line-height:1.65;}
+.center{text-align:center;margin-left:auto;margin-right:auto;}
+.mono{font-family:var(--font-mono);}
+.eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--blue-deep);font-weight:600;display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 10px;border-radius:100px;background:rgba(47,111,237,0.08);border:1px solid rgba(47,111,237,0.25);margin-bottom:18px;}
+.eyebrow::before{content:'';width:6px;height:6px;border-radius:1px;background:var(--cyan);box-shadow:0 0 0 3px rgba(63,211,240,0.25);}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 24px;border-radius:10px;font-weight:600;font-size:14.5px;cursor:pointer;border:1px solid transparent;transition:transform .25s ease,box-shadow .25s ease,background .25s ease,border-color .25s ease;white-space:nowrap;}
+.btn-primary{background:var(--grad-brand);color:#fff;box-shadow:var(--shadow-md);}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 20px 44px -14px rgba(23,59,140,0.45);}
+.btn-ghost{background:#fff;color:var(--ink);border-color:var(--line-strong);}
+.btn-ghost:hover{border-color:var(--blue);color:var(--blue-deep);transform:translateY(-2px);}
+.btn-block{width:100%;justify-content:center;}
+.btn-sm{padding:9px 16px;font-size:13px;}
+.btn-white{background:#fff;color:var(--blue-deep);}
+.btn-white:hover{transform:translateY(-2px);box-shadow:0 14px 34px -14px rgba(0,0,0,0.35);}
+
+header{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,0.92);backdrop-filter:blur(14px) saturate(160%);border-bottom:1px solid var(--line);}
+header::after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--grad-brand);}
+.navbar{display:flex;align-items:center;justify-content:space-between;padding:13px 32px;max-width:var(--maxw);margin:0 auto;gap:24px;}
+.logo{display:flex;align-items:center;gap:9px;cursor:pointer;flex-shrink:0;}
+.logo img{width:164px;height:34px;object-fit:cover;object-position:center;}
+nav.primary{display:flex;align-items:center;gap:2px;flex:1;justify-content:center;}
+nav.primary a{padding:9px 15px;font-size:14px;font-weight:600;color:var(--muted);border-radius:100px;cursor:pointer;transition:all .2s ease;}
+nav.primary a:hover{color:var(--ink);background:rgba(47,111,237,0.08);}
+nav.primary a.active{color:var(--blue-deep);background:rgba(47,111,237,0.12);}
+.nav-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.nav-cta{font-size:12px;padding:9px 13px;}
+.nav-user-chip{display:none;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink);padding:7px 14px 7px 7px;border-radius:100px;background:rgba(47,111,237,0.08);border:1px solid rgba(47,111,237,0.18);cursor:pointer;}
+.nav-user-chip .av{width:24px;height:24px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;}
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;}
+.nav-toggle span{width:22px;height:2px;background:var(--ink);border-radius:2px;}
+.mobile-menu{display:none;}
+.mobile-menu.open{display:block;position:fixed;top:68px;left:0;right:0;bottom:0;z-index:99;background:#fff;padding:20px 24px;overflow-y:auto;}
+.mobile-menu.open a{display:block;padding:14px 4px;font-size:16px;font-weight:600;color:var(--muted);border-bottom:1px solid var(--line);}
+@media(max-width:940px){nav.primary,.nav-actions .auth-only-desktop{display:none;}.nav-toggle{display:flex;}}
+@media(max-width:940px){.nav-cta{display:none;}}
+@media(max-width:560px){.navbar{padding:11px 18px;}.logo img{width:148px;height:32px;}.nav-actions{gap:4px;}.mobile-menu.open{top:64px;padding:16px 20px;}}
+
+.page{display:none;}
+.page.active{display:block;}
+.section{padding:76px 0;position:relative;}
+.section.tight{padding:52px 0;}
+.section-alt{background:linear-gradient(180deg,#EEF2FA 0%,#F3F6FC 100%);}
+.section-head{margin-bottom:38px;}
+
+.hero{position:relative;padding:150px 0 66px;overflow:hidden;background:
+  radial-gradient(900px 480px at 88% -10%,rgba(63,211,240,0.14),transparent 60%),
+  radial-gradient(760px 460px at 5% 10%,rgba(47,111,237,0.10),transparent 60%),
+  var(--bg);}
+.hero h1 .accent{background:var(--grad-brand);-webkit-background-clip:text;background-clip:text;color:transparent;}
+.hero .lead{margin-top:20px;}
+.hero-cta{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+
+.trust-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:52px;}
+@media(max-width:820px){.trust-strip{grid-template-columns:repeat(2,1fr);}}
+.trust-item{display:flex;align-items:center;gap:12px;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow-sm);}
+.trust-item .ic{width:38px;height:38px;border-radius:10px;background:var(--grad-brand-soft);border:1px solid rgba(47,111,237,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.trust-item .ic svg{width:18px;height:18px;stroke:var(--blue-deep);}
+.trust-item .t{font-size:13.5px;font-weight:700;color:var(--ink);}
+.trust-item .s{font-size:11.5px;color:var(--muted-2);margin-top:1px;}
+
+.grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;}
+@media(max-width:900px){.grid-3,.grid-4{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:640px){.grid-2,.grid-3,.grid-4{grid-template-columns:1fr;}}
+.card{background:var(--bg-panel);border:1px solid var(--line);border-radius:16px;padding:26px;box-shadow:var(--shadow-sm);transition:transform .3s ease,box-shadow .3s ease,border-color .3s ease;}
+.card:hover{transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:rgba(47,111,237,0.3);}
+.card .icon{width:44px;height:44px;border-radius:11px;background:var(--grad-brand-soft);border:1px solid rgba(47,111,237,0.22);display:flex;align-items:center;justify-content:center;margin-bottom:16px;}
+.card .icon svg{width:21px;height:21px;stroke:var(--blue-deep);}
+.card h3{margin-bottom:7px;}
+.card p{font-size:14.5px;}
+
+.band-dark{background:var(--navy-900);border-radius:22px;padding:48px 52px;position:relative;overflow:hidden;display:flex;justify-content:space-between;align-items:center;gap:28px;flex-wrap:wrap;}
+.band-dark::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 300px at 15% 0%,rgba(63,211,240,0.16),transparent 70%);}
+.band-dark>*{position:relative;z-index:2;}
+.band-dark h2,.band-dark p{color:#fff;}
+.band-dark p{color:rgba(255,255,255,0.68);max-width:460px;margin-top:8px;}
+.cta-banner{background:var(--navy-900);border-radius:22px;padding:52px;text-align:center;position:relative;overflow:hidden;}
+.cta-banner::before{content:'';position:absolute;inset:0;background:radial-gradient(600px 300px at 50% 0%,rgba(63,211,240,0.18),transparent 70%);}
+.cta-banner h2,.cta-banner p{color:#fff;position:relative;z-index:2;}
+.cta-banner p{color:rgba(255,255,255,0.68);max-width:480px;margin:12px auto 0;}
+.cta-banner .hero-cta{justify-content:center;position:relative;z-index:2;}
+
+footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:56px 0 26px;margin-top:36px;}
+.footer-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;margin-bottom:40px;}
+@media(max-width:760px){.footer-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){footer{padding-top:42px;}.footer-grid{grid-template-columns:1fr;gap:28px;margin-bottom:30px;}.footer-bottom{flex-direction:column;gap:6px;}}
+.footer-grid h4{color:#fff;font-size:13px;margin-bottom:14px;letter-spacing:.03em;}
+.footer-grid a,.footer-grid li{color:rgba(255,255,255,0.62);font-size:13.5px;display:block;margin-bottom:9px;cursor:pointer;}
+.footer-grid a:hover{color:#fff;}
+.footer-logo{display:flex;align-items:center;gap:9px;color:#fff;font-family:var(--font-display);font-weight:800;font-size:17px;margin-bottom:12px;}
+.footer-logo img{width:148px;height:32px;object-fit:cover;object-position:center;}
+.footer-brand{display:flex;flex-direction:column;align-items:flex-start;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:22px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:12.5px;color:rgba(255,255,255,0.45);}
+
+.auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:140px 20px 60px;background:
+  radial-gradient(700px 420px at 90% -5%,rgba(63,211,240,0.12),transparent 60%),var(--bg);}
+.auth-card{width:100%;max-width:440px;background:#fff;border:1px solid var(--line);border-radius:18px;padding:38px 34px;box-shadow:var(--shadow-lg);}
+.auth-card h2{font-size:24px;margin-bottom:6px;}
+.auth-card .sub{font-size:14px;color:var(--muted);margin-bottom:26px;}
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.field label{font-size:12.5px;font-weight:700;color:var(--ink);}
+.field input,.field select{padding:12px 14px;border-radius:9px;border:1.5px solid var(--line-strong);font-size:14.5px;background:#fff;color:var(--ink);transition:border-color .2s ease;}
+.field input:focus,.field select:focus{border-color:var(--blue);}
+.field .hint{font-size:11.5px;color:var(--muted-2);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;}
+@media(max-width:520px){.form-grid{grid-template-columns:1fr;}}
+.auth-error{display:none;background:var(--danger-bg);color:var(--danger);border:1px solid rgba(216,57,47,0.25);padding:10px 14px;border-radius:9px;font-size:13px;margin-bottom:16px;}
+.auth-error.show{display:block;}
+.auth-switch{text-align:center;margin-top:20px;font-size:13.5px;color:var(--muted);}
+.auth-switch a{color:var(--blue-deep);font-weight:700;cursor:pointer;}
+.auth-trust{display:flex;align-items:center;gap:8px;margin-top:22px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted-2);}
+.auth-trust svg{width:14px;height:14px;stroke:var(--success);flex-shrink:0;}
+
+.plan-picker{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:6px;}
+@media(max-width:640px){.plan-picker{grid-template-columns:1fr;}}
+.plan-option{border:1.5px solid var(--line-strong);border-radius:11px;padding:13px 12px;cursor:pointer;transition:all .2s ease;}
+.plan-option:hover{border-color:var(--blue);}
+.plan-option.sel{border-color:var(--blue);background:var(--grad-brand-soft);}
+.plan-option .nm{font-size:12.5px;font-weight:700;color:var(--ink);}
+.plan-option .pr{font-size:11px;color:var(--muted-2);margin-top:2px;}
+
+.pricing-card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:30px 26px;box-shadow:var(--shadow-sm);position:relative;display:flex;flex-direction:column;height:100%;}
+.pricing-card.featured{border-color:var(--blue);box-shadow:var(--shadow-md);}
+.pricing-card .ribbon{position:absolute;top:-12px;right:24px;background:var(--grad-brand);color:#fff;font-size:11px;font-weight:700;padding:5px 12px;border-radius:100px;letter-spacing:.03em;}
+.pricing-card .tier-name{font-family:var(--font-display);font-size:19px;font-weight:800;}
+.pricing-card .tier-audience{font-size:12.5px;color:var(--muted-2);margin-top:3px;}
+.pricing-card .tier-price{font-family:var(--font-display);font-size:30px;font-weight:800;margin-top:18px;}
+.pricing-card .tier-price span{font-size:13px;font-weight:600;color:var(--muted-2);}
+.pricing-card .tier-desc{font-size:13.5px;margin-top:8px;color:var(--muted);}
+.pricing-card ul{margin-top:18px;flex:1;display:flex;flex-direction:column;gap:10px;}
+.pricing-card li{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink);}
+.pricing-card li svg{width:15px;height:15px;stroke:var(--success);flex-shrink:0;margin-top:2px;}
+.pricing-card .btn{margin-top:22px;}
+
+.addon-strip{display:flex;align-items:center;gap:18px;padding:22px 26px;background:var(--grad-brand-soft);border:1px solid rgba(47,111,237,0.22);border-radius:16px;margin-top:22px;flex-wrap:wrap;}
+.addon-strip .ic{width:44px;height:44px;border-radius:11px;background:#fff;border:1px solid rgba(47,111,237,0.22);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.addon-strip .ic svg{width:20px;height:20px;stroke:var(--blue-deep);}
+
+.badge{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:100px;font-size:11px;font-weight:700;}
+.badge.verified{background:var(--success-bg);color:var(--success);}
+.badge.plan{background:var(--grad-brand-soft);color:var(--blue-deep);border:1px solid rgba(47,111,237,0.22);}
+.badge svg{width:11px;height:11px;stroke:currentColor;}
+
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy-950);color:#fff;padding:13px 22px;border-radius:11px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg);z-index:300;opacity:0;pointer-events:none;transition:all .3s ease;display:flex;align-items:center;gap:9px;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast svg{width:15px;height:15px;stroke:var(--cyan);}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(8,14,31,0.55);z-index:200;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal-box{background:#fff;border-radius:18px;padding:30px;max-width:460px;width:100%;box-shadow:var(--shadow-lg);position:relative;}
+.modal-close{position:absolute;top:16px;right:16px;cursor:pointer;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--bg);}
+.modal-close svg{width:15px;height:15px;stroke:var(--muted);}
+
+.account-shell{max-width:760px;margin:0 auto;padding:150px 24px 80px;}
+.account-head{display:flex;align-items:center;gap:16px;margin-bottom:28px;}
+.account-head .av{width:56px;height:56px;border-radius:50%;background:var(--grad-brand);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;flex-shrink:0;}
+.panel-block{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px;box-shadow:var(--shadow-sm);margin-bottom:20px;}
+.panel-block h3{margin-bottom:14px;}
+.detail-row{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding:11px 0;font-size:14px;}
+.detail-row:last-child{border-bottom:none;}
+.detail-row span:first-child{color:var(--muted-2);}
+.detail-row span:last-child{font-weight:600;}
+
+.quote-block{border-left:3px solid var(--blue);padding:4px 0 4px 20px;margin:20px 0;}
+.quote-block p{font-size:15px;color:var(--ink);font-style:italic;}
+
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* Enterprise visual language */
+.hero{min-height:650px;display:flex;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(360px,.9fr);align-items:center;gap:70px;}
+.hero-copy h1{max-width:660px;font-size:clamp(38px,5vw,66px);letter-spacing:-.045em;}
+.hero-copy .lead{max-width:610px;margin-top:22px;}
+.hero-kicker{display:flex;align-items:center;gap:10px;margin-top:28px;color:var(--muted);font-size:12px;font-family:var(--font-mono);}
+.hero-kicker span{width:8px;height:8px;background:var(--cyan);border-radius:50%;box-shadow:0 0 0 5px rgba(63,211,240,.16);}
+.hero-visual{min-height:430px;position:relative;padding:26px;border:1px solid rgba(63,211,240,.26);border-radius:20px;background:linear-gradient(145deg,rgba(14,24,48,.98),rgba(23,59,140,.95));box-shadow:0 30px 70px -30px rgba(14,24,48,.55);overflow:hidden;}
+.hero-visual:before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(63,211,240,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(63,211,240,.08) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%);}
+.visual-label{position:relative;display:flex;justify-content:space-between;align-items:center;color:#fff;font:600 11px var(--font-mono);letter-spacing:.08em;text-transform:uppercase;}
+.visual-status{color:var(--cyan);font-size:10px;}
+.flow-stack{position:relative;display:grid;gap:12px;margin-top:28px;}
+.flow-node{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.07);border-radius:10px;color:#fff;}
+.flow-node strong{font:600 13px var(--font-body);}.flow-node small{display:block;color:rgba(255,255,255,.55);font-size:11px;margin-top:2px;}
+.flow-icon{width:32px;height:32px;display:grid;place-items:center;border:1px solid rgba(63,211,240,.42);border-radius:8px;color:var(--cyan);font:700 11px var(--font-mono);flex-shrink:0;}
+.flow-arrow{height:12px;width:1px;background:var(--cyan);margin:0 auto;position:relative;opacity:.7;}.flow-arrow:after{content:'';position:absolute;bottom:0;left:-3px;border:3px solid transparent;border-top-color:var(--cyan);}
+.visual-foot{position:absolute;bottom: 8px;left:26px;right:26px;display:flex;justify-content:space-between;color:rgba(255,255,255,.52);font:10px var(--font-mono);}
+.trust-strip{margin-top:62px;}
+.trust-item{min-height:78px;}
+.section-label{font:600 11px var(--font-mono);letter-spacing:.13em;text-transform:uppercase;color:var(--blue-deep);margin-bottom:12px;}
+.section-intro{max-width:680px;margin-bottom:34px;}
+.section-intro p{margin-top:12px;}
+.number-card{position:relative;padding-top:44px;}
+.number-card .card-num{position:absolute;top:20px;right:22px;color:var(--blue);font:600 12px var(--font-mono);}
+.number-card .icon{margin-bottom:14px;}
+.architecture-shell{background:var(--navy-950);border:1px solid rgba(63,211,240,.18);border-radius:20px;padding:32px;position:relative;overflow:hidden;}
+.architecture-shell:before{content:'';position:absolute;inset:0;background:radial-gradient(500px 240px at 50% 30%,rgba(47,111,237,.22),transparent 70%);}
+.architecture-main{position:relative;display:grid;grid-template-columns:1fr 1.3fr 1fr;align-items:center;gap:24px;}
+.arch-column{display:grid;gap:12px;}.arch-column.center-col{gap:16px;}
+.arch-node{padding:15px 16px;border:1px solid rgba(255,255,255,.16);border-radius:10px;background:rgba(255,255,255,.07);color:#fff;text-align:center;font-size:13px;font-weight:600;}
+.arch-node.primary{background:var(--grad-brand);border-color:rgba(255,255,255,.28);padding:20px 16px;box-shadow:0 15px 35px -18px rgba(63,211,240,.8);}
+.arch-node small{display:block;color:rgba(255,255,255,.55);font-size:10px;font-weight:400;margin-top:4px;}.arch-node.primary small{color:rgba(255,255,255,.8);}
+.arch-connector{height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);position:relative;}.arch-connector:after{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:var(--cyan);top:-3px;left:50%;box-shadow:0 0 12px var(--cyan);animation:signal 2.8s linear infinite;}
+@keyframes signal{0%{left:5%;opacity:0}15%,85%{opacity:1}100%{left:95%;opacity:0}}
+.arch-pills{position:relative;display:flex;justify-content:center;flex-wrap:wrap;gap:9px;margin-top:28px;}.arch-pill{padding:7px 11px;border:1px solid rgba(63,211,240,.35);border-radius:6px;color:var(--cyan);font:11px var(--font-mono);background:rgba(63,211,240,.07);}
+.tech-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}.tech-item{padding:18px;border-top:2px solid var(--blue);background:#fff;border:1px solid var(--line);border-radius:10px;}.tech-item strong{display:block;font:600 13px var(--font-body);}.tech-item span{display:block;color:var(--muted-2);font-size:11px;margin-top:6px;}
+.security-section{background:var(--navy-900);color:#fff;overflow:hidden;}.security-section h2,.security-section h3{color:#fff;}.security-section p{color:rgba(255,255,255,.64);}.security-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;}.security-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px;}.security-item{padding:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:10px;}.security-item strong{display:block;font-size:13px;color:#fff;}.security-item span{display:block;font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;}.security-orbit{min-height:300px;display:grid;place-items:center;position:relative;border:1px solid rgba(63,211,240,.2);border-radius:50%;width:min(300px,80vw);margin:auto;}.security-orbit:before,.security-orbit:after{content:'';position:absolute;border:1px solid rgba(63,211,240,.2);border-radius:50%;}.security-orbit:before{inset:22px}.security-orbit:after{inset:64px}.orbit-core{z-index:2;width:100px;height:100px;display:grid;place-items:center;text-align:center;border-radius:50%;background:var(--grad-brand);color:#fff;font:700 11px var(--font-mono);box-shadow:0 0 40px rgba(63,211,240,.32);}.orbit-tag{position:absolute;color:var(--cyan);font:10px var(--font-mono);}.orbit-tag.a{top:17px}.orbit-tag.b{right:0}.orbit-tag.c{bottom:17px}.orbit-tag.d{left:0;}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}.steps:before{content:'';position:absolute;top:19px;left:8%;right:8%;height:1px;background:var(--line-strong);}.step{position:relative;text-align:center;padding:0 10px;}.step-num{width:38px;height:38px;display:grid;place-items:center;margin:0 auto 18px;background:var(--bg);border:1px solid var(--blue);border-radius:50%;color:var(--blue-deep);font:600 11px var(--font-mono);position:relative;z-index:1;}.step h3{font-size:14px;margin-bottom:6px;}.step p{font-size:12px;}
+.audience-card{min-height:210px;display:flex;flex-direction:column;justify-content:space-between;}.audience-card .audience-mark{font:700 12px var(--font-mono);color:var(--blue);}
+.enquiry-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start;}.enquiry-form{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:var(--shadow-md);}.enquiry-form textarea{font-family:inherit;min-height:110px;resize:vertical;}.field input,.field select,.field textarea{width:100%;}.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--blue-deep);font-size:12px;font-weight:700;cursor:pointer;padding:5px;}
+.account-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;}.account-status{border-left:3px solid var(--cyan);padding-left:16px;}.demo-note{font-size:11.5px;color:var(--warn);background:var(--warn-bg);border:1px solid rgba(185,130,10,.22);padding:10px 12px;border-radius:8px;margin:0 0 18px;}
+@media(max-width:900px){.hero-grid,.security-grid,.enquiry-layout{grid-template-columns:1fr;gap:34px;}.hero{min-height:auto;}.hero-visual{max-width:620px;}.architecture-main{grid-template-columns:1fr;gap:14px;}.arch-connector{width:1px;height:20px;margin:auto;background:linear-gradient(180deg,transparent,var(--cyan),transparent);}.arch-connector:after{left:-3px;top:5%;animation:signalVertical 2.8s linear infinite;}.tech-grid{grid-template-columns:repeat(2,1fr);}.steps{grid-template-columns:1fr;gap:22px;text-align:left;}.steps:before{top:18px;bottom:18px;left:19px;right:auto;width:1px;height:auto;}.step{display:grid;grid-template-columns:38px 1fr;column-gap:16px;text-align:left;padding:0;}.step-num{grid-row:span 2;margin:0;}.step h3{align-self:end;}.step p{align-self:start;} }
+@keyframes signalVertical{0%{top:5%;opacity:0}15%,85%{opacity:1}100%{top:85%;opacity:0}}
+@media(max-width:640px){.wrap{padding:0 20px;}.hero-copy h1{font-size:clamp(35px,10vw,48px);}.hero-visual{min-height:390px;padding:20px;}.trust-strip{grid-template-columns:1fr;margin-top:40px;}.security-list{grid-template-columns:1fr;}.tech-grid{grid-template-columns:1fr;}.architecture-shell{padding:20px 16px;}.enquiry-form{padding:22px 18px;}.account-grid{grid-template-columns:1fr;}.detail-row{gap:18px;}.detail-row span:last-child{text-align:right;overflow-wrap:anywhere;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="navbar">
+    <div class="logo" onclick="go('home')">
+      <img src="./assets/quantum.jpeg" alt="QuantumSafePay">
+    </div>
+    <nav class="primary" id="navPrimary">
+      <a onclick="go('home')" data-page="home" class="active">Home</a>
+      <a onclick="goSection('home','solutions')" data-page="solutions">Solutions</a>
+      <a onclick="goSection('home','how-it-works')" data-page="how-it-works">How It Works</a>
+      <a onclick="go('security')" data-page="security">Security</a>
+      <a onclick="go('enquiry')" data-page="enquiry">Enquire Now</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="btn btn-ghost btn-sm nav-cta" onclick="go('enquiry')">Enquire Now</a>
+      <a class="btn btn-primary btn-sm nav-cta" onclick="go('pricing')">Get Protected</a>
+      <div class="nav-toggle" onclick="toggleMobileMenu()"><span></span><span></span><span></span></div>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a onclick="go('home')">Home</a>
+    <a onclick="goSection('home','solutions')">Solutions</a>
+    <a onclick="goSection('home','how-it-works')">How It Works</a>
+    <a onclick="go('security')">Security</a>
+    <a onclick="go('enquiry')">Enquire Now</a>
+    <a onclick="go('pricing')">Get Protected</a>
+  </div>
+</header>
+
+<!-- ================= HOME ================= -->
+<div class="page active" id="page-home">
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">Secure payment infrastructure</div>
+          <h1>Quantum-secure payments for <span class="accent">India's financial future.</span></h1>
+          <p class="lead">Enterprise payment infrastructure built for regulated financial ecosystems, combining permissioned blockchain, post-quantum cryptography and secure integration with existing financial rails.</p>
+          <div class="hero-cta"><a class="btn btn-primary" onclick="go('enquiry')">Request a demo</a><a class="btn btn-ghost" onclick="go('solution')">Explore the platform</a></div>
+          <div class="hero-kicker"><span></span>Designed for long-term confidentiality and auditable settlement</div>
+        </div>
+        <div class="hero-visual" aria-label="QuantumSafePay secure payment infrastructure">
+          <div class="visual-label"><span>QuantumSafePay / secure infrastructure</span><span class="visual-status">● SYSTEM DESIGNED</span></div>
+          <div class="flow-stack">
+            <div class="flow-node"><div class="flow-icon">01</div><div><strong>Merchant / enterprise</strong><small>Initiates a payment instruction</small></div></div><div class="flow-arrow"></div>
+            <div class="flow-node"><div class="flow-icon">02</div><div><strong>Secure gateway</strong><small>Routes, validates and orchestrates</small></div></div><div class="flow-arrow"></div>
+            <div class="flow-node"><div class="flow-icon">03</div><div><strong>PQC security layer</strong><small>Hybrid cryptography and key controls</small></div></div><div class="flow-arrow"></div>
+            <div class="flow-node"><div class="flow-icon">04</div><div><strong>Permissioned ledger</strong><small>Records settlement state and proof</small></div></div>
+          </div>
+          <div class="visual-foot"><span>UPI / BANK APIs / e₹</span><span>SETTLEMENT READY</span></div>
+        </div>
+      </div>
+
+      <div class="trust-strip">
+        <div class="trust-item"><div class="ic">01</div><div><div class="t">Permissioned infrastructure</div><div class="s">Controlled network participation</div></div></div>
+        <div class="trust-item"><div class="ic">02</div><div><div class="t">Post-quantum cryptography</div><div class="s">Hybrid security by design</div></div></div>
+        <div class="trust-item"><div class="ic">03</div><div><div class="t">Auditable settlement</div><div class="s">Tamper-evident transaction records</div></div></div>
+        <div class="trust-item"><div class="ic">04</div><div><div class="t">Enterprise integration</div><div class="s">APIs, SDKs and financial rails</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="solutions">
+    <div class="wrap">
+      <div class="section-head" style="max-width:700px;">
+        <div class="eyebrow">What we do</div>
+        <h2>A secure, regulator-compliant payments infrastructure for India</h2>
+        <p class="lead">Leveraging permissioned blockchain, post-quantum cryptography (PQC), and optional Quantum Key Distribution (QKD) for unparalleled interbank security.</p>
+      </div>
+      <div class="grid-3">
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10 12 3l9 7"/><path d="M4 10v10M20 10v10M9 10v10M15 10v10"/><path d="M2 21h20"/></svg></div><h3>Who it's for</h3><p>Banks, payment aggregators, large merchants, and enterprises handling high-value transactions that demand long-term confidentiality and integrity against emerging quantum threats.</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6l1-8z"/></svg></div><h3>What it delivers</h3><p>Instant settlement instructions, auditable tamper-evident records, and a developer-friendly API/SDK for seamless integration with merchant checkout, PSPs, and bank reconciliation systems.</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5C20 17 16.5 20.5 12 22 7.5 20.5 4 17 4 11.5v-5L12 3z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>How it's secured</h3><p>All secured by cryptographic primitives resilient to future quantum adversaries — designed within a fully regulator-compliant framework.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="section-head" style="max-width:700px;">
+        <div class="eyebrow">The problem</div>
+        <h2>Financial security is entering a new era</h2>
+      </div>
+      <div class="grid-2">
+        <div class="card number-card"><span class="card-num">01</span><div class="icon">◈</div><h3>Emerging quantum threats</h3><p>Current financial encryption may be vulnerable to future quantum computers, putting long-term confidentiality and high-value transactions at risk.</p></div>
+        <div class="card number-card"><span class="card-num">02</span><div class="icon">⌁</div><h3>Stringent regulatory demands</h3><p>Financial infrastructure needs controlled participation, auditability and clear regulatory visibility rather than opaque public networks.</p></div>
+        <div class="card number-card"><span class="card-num">03</span><div class="icon">▣</div><h3>Enterprise security gaps</h3><p>Banks and enterprises need stronger key management, cryptographic guarantees and transparent operational controls.</p></div>
+        <div class="card number-card"><span class="card-num">04</span><div class="icon">↔</div><h3>Inefficient interoperability</h3><p>Fragmented payment, banking and ERP integrations make cross-party settlement and reconciliation costly and time-consuming.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tight" id="how-it-works">
+    <div class="wrap">
+      <div class="section-intro"><div class="section-label">How it works</div><h2>From connection to accountable settlement</h2><p>A clear operating flow for teams that need security, control and evidence across every transaction.</p></div>
+      <div class="steps"><div class="step"><div class="step-num">01</div><h3>Connect</h3><p>Integrate existing payment and banking systems.</p></div><div class="step"><div class="step-num">02</div><h3>Authenticate</h3><p>Establish trusted identities and access controls.</p></div><div class="step"><div class="step-num">03</div><h3>Secure transaction</h3><p>Apply hybrid cryptography and protected keys.</p></div><div class="step"><div class="step-num">04</div><h3>Permissioned settlement</h3><p>Record settlement state across approved participants.</p></div><div class="step"><div class="step-num">05</div><h3>Audit &amp; reconciliation</h3><p>Maintain evidence for operational review.</p></div></div>
+    </div>
+  </section>
+  <section class="section section-alt">
+    <div class="wrap"><div class="section-intro"><div class="section-label">Solutions</div><h2>Built around the way financial organizations work</h2></div><div class="grid-4"><div class="card audience-card"><span class="audience-mark">01 / BANKS</span><h3>Controlled settlement infrastructure</h3><p>Support permissioned participation, protected keys and auditable settlement records.</p></div><div class="card audience-card"><span class="audience-mark">02 / AGGREGATORS</span><h3>One integration surface</h3><p>Connect payment flows to banks and settlement systems through APIs and interoperability adapters.</p></div><div class="card audience-card"><span class="audience-mark">03 / MERCHANTS</span><h3>Secure payment experiences</h3><p>Use merchant integration tools for high-value transactions requiring long-term assurance.</p></div><div class="card audience-card"><span class="audience-mark">04 / ENTERPRISES</span><h3>Evidence-ready operations</h3><p>Bring security controls, reconciliation and compliance workflows into one infrastructure layer.</p></div></div></div>
+  </section>
+  <section class="section tight">
+    <div class="wrap">
+      <div class="band-dark">
+        <div>
+          <h2>The first quantum-aware payment gateway</h2>
+          <p>A regulated, permissioned ledger with PQC and an optional QKD — built to serve high-value customers who demand long-term cryptographic assurance.</p>
+        </div>
+        <a class="btn btn-white" onclick="go('security')">See how it's secured</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="wrap">
+      <div class="cta-banner">
+        <h2>Let's shape India's quantum-secure financial future.</h2>
+        <p>Get started with QuantumSafePay, or reach out to discuss a partnership.</p>
+        <div class="hero-cta"><a class="btn btn-primary" onclick="go('enquiry')">Request a demo</a><a class="btn btn-white" onclick="go('solution')">Explore the platform</a></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= SOLUTION ================= -->
+<div class="page" id="page-solution">
+  <section class="hero" style="padding:150px 0 60px;">
+    <div class="wrap" style="max-width:760px;">
+      <div class="eyebrow">Solution overview</div>
+      <h1>Built on permissioned blockchain and hybrid post-quantum cryptography.</h1>
+      <p class="lead" style="max-width:680px;">For the utmost security, optional Quantum Key Distribution (QKD) links can be established between participating settlement nodes within bank data centers, offering higher-assurance key exchange. A dedicated Compliance &amp; Audit module is designed to support standards such as PCI-DSS and ISO 27001 with immutable on-chain audit trails and reporting workflows.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-intro"><div class="section-label">Reference architecture</div><h2>One secure layer across the financial ecosystem</h2><p>Connect existing participants and financial rails through a controlled gateway, interoperability layer and permissioned settlement network.</p></div>
+      <div class="architecture-shell">
+        <div class="architecture-main">
+          <div class="arch-column"><div class="arch-node">Banks<small>Settlement participants</small></div><div class="arch-node">Payment aggregators<small>Payment orchestration</small></div><div class="arch-node">Large merchants<small>Enterprise checkout</small></div></div>
+          <div class="arch-column center-col"><div class="arch-node primary">QuantumSafePay Gateway<small>Secure transaction orchestration</small></div><div class="arch-connector"></div><div class="arch-node">Interoperability layer<small>UPI, bank APIs and ERP adapters</small></div><div class="arch-connector"></div><div class="arch-node">Permissioned blockchain<small>Settlement state and audit trail</small></div></div>
+          <div class="arch-column"><div class="arch-node">Secure settlement<small>Controlled completion</small></div><div class="arch-node">Reconciliation<small>Evidence and reporting</small></div></div>
+        </div>
+        <div class="arch-pills"><span class="arch-pill">PQC</span><span class="arch-pill">HSM / KMS</span><span class="arch-pill">QRNG</span><span class="arch-pill">API / SDK</span><span class="arch-pill">Optional QKD</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="grid-4">
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/></svg></div><h3>Permissioned Blockchain</h3><p>A consortium-driven permissioned blockchain enables secure, auditable settlement by storing immutable transaction records and settlement states.</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3.5v5C20 17 16.5 20.5 12 22 7.5 20.5 4 17 4 11.5v-5L12 3z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Hybrid Cryptography</h3><p>NIST-recommended hybrid post-quantum cryptography (PQC) combined with classical algorithms for robust transaction signatures and secure TLS communication.</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="4.5"/><path d="m10.5 12.5 8-8M16 6l2 2M19 3l2 2"/></svg></div><h3>Secure Key Management</h3><p>Secure entropy and PQ key storage through integration with Hardware Security Modules (HSM) and Key Management Systems (KMS), leveraging Quantum Random Number Generators (QRNG).</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 17H7a5 5 0 0 1 0-10h2"/><path d="M15 7h2a5 5 0 1 1 0 10h-2"/><path d="M8 12h8"/></svg></div><h3>Integration Ecosystem</h3><p>Intuitive APIs and SDKs, with plug-and-play adapters for seamless connectivity with UPI, core banking APIs, and major card networks.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="section section-alt" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head" style="max-width:700px;">
+        <div class="eyebrow">Product components</div>
+        <h2>What the platform is made of</h2>
+      </div>
+      <div class="grid-3">
+        <div class="card"><h3>Core Ledger</h3><p>A permissioned blockchain using IBFT/PBFT for low-latency consensus. Stores transaction hashes, settlement metadata, and cryptographic proofs on-chain, while larger payloads and reconciliation files are stored off-chain.</p></div>
+        <div class="card"><h3>Node Software</h3><p>A robust deployment package for banks and payment aggregators, featuring a pluggable cryptographic module to ensure future-proof security.</p></div>
+        <div class="card"><h3>Key Management</h3><p>Integration with PQ-capable Hardware Security Modules (HSM) and a KMS user interface for secure management of quantum-resistant keys.</p></div>
+        <div class="card"><h3>Merchant SDK</h3><p>Mobile and web integration tools that support hybrid signatures, enabling seamless and secure payment experiences for merchants.</p></div>
+        <div class="card"><h3>Interoperability Gateway</h3><p>Comprehensive adapters for seamless integration with UPI, core banking APIs, and legacy ERP systems, ensuring broad compatibility across the financial ecosystem.</p></div>
+        <div class="card"><h3>Admin &amp; Compliance Dashboard</h3><p>A unified dashboard offering KYC, settlement monitoring, and dispute resolution — with optional Quantum Key Distribution (QKD) appliance integration for participating data centers.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= SECURITY & COMPLIANCE ================= -->
+<div class="page" id="page-security">
+  <section class="hero" style="padding:150px 0 60px;">
+    <div class="wrap" style="max-width:760px;">
+      <div class="eyebrow">Security &amp; compliance</div>
+      <h1>Designed to stay secure — and to stay within the rules.</h1>
+      <p class="lead" style="max-width:680px;">Our network is structured as a permissioned, bank-backed settlement system, specifically designed to work within RBI restrictions on private crypto tokens while ensuring full regulatory visibility and control.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="section-head" style="max-width:700px;">
+        <div class="eyebrow">Technology choices</div>
+        <h2>Technology stack</h2>
+      </div>
+      <div class="tech-grid">
+        <div class="tech-item"><strong>Permissioned blockchain</strong><span>Controlled participation and deterministic settlement</span></div><div class="tech-item"><strong>Post-quantum cryptography</strong><span>Hybrid cryptographic transition strategy</span></div><div class="tech-item"><strong>HSM / KMS</strong><span>Protected key storage and lifecycle control</span></div><div class="tech-item"><strong>QRNG</strong><span>Quantum random number generation integration</span></div><div class="tech-item"><strong>REST / gRPC APIs</strong><span>Service integration for financial systems</span></div><div class="tech-item"><strong>OAuth2 / mTLS</strong><span>Authenticated, mutually trusted connections</span></div><div class="tech-item"><strong>Kubernetes infrastructure</strong><span>Deployable secure cluster architecture</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="section security-section">
+    <div class="wrap"><div class="security-grid"><div><div class="section-label" style="color:var(--cyan);">Security posture</div><h2>Designed for trust at every layer</h2><p style="margin-top:14px;">Security and compliance are treated as architecture requirements. The platform is designed for controlled participation, protected keys, auditable records and a clear regulatory strategy.</p><div class="security-list"><div class="security-item"><strong>Permissioned design</strong><span>Controlled network access</span></div><div class="security-item"><strong>PQC</strong><span>Quantum-aware cryptography</span></div><div class="security-item"><strong>Secure key management</strong><span>HSM, KMS and QRNG integration</span></div><div class="security-item"><strong>Immutable audit trails</strong><span>Tamper-evident records</span></div><div class="security-item"><strong>KYC / AML</strong><span>Compliance workflow support</span></div><div class="security-item"><strong>PCI-DSS / ISO 27001</strong><span>Designed for applicable controls</span></div></div></div><div class="security-orbit"><span class="orbit-tag a">PQC</span><span class="orbit-tag b">HSM</span><span class="orbit-tag c">AUDIT</span><span class="orbit-tag d">KYC</span><div class="orbit-core">SECURITY<br>BY DESIGN</div></div></div></div>
+  </section>
+  <section class="section section-alt" style="padding-top:0;">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Permissioned design</h3>
+          <p style="margin-top:8px;">Our network is structured as a permissioned settlement system designed for regulatory visibility and control. It is not a public cryptocurrency network.</p>
+        </div>
+        <div class="card">
+          <h3>Regulatory strategy</h3>
+          <p style="margin-top:8px;">Regulatory engagement, security audits and controlled pilots form part of the intended strategy. These are not represented as completed approvals or certifications.</p>
+        </div>
+      </div>
+      <div class="quote-block" style="margin-top:26px;">
+        <p>"QuantumSafePay stands out as the first quantum-aware payment gateway, leveraging a regulated, permissioned ledger with PQC and an optional QKD — positioning it to serve high-value customers who demand long-term cryptographic assurance."</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= SUBSCRIPTION / PRICING ================= -->
+<div class="page" id="page-pricing">
+  <section class="hero" style="padding:150px 0 56px;">
+    <div class="wrap" style="max-width:760px;">
+      <div class="eyebrow">Business model</div>
+      <h1>Straightforward, volume-based pricing.</h1>
+      <p class="lead" style="max-width:660px;">Revenue is built around transaction fees and settlement subscriptions for node partners, with premium security available for enterprise customers who need the highest assurance.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="grid-3">
+        <div class="pricing-card">
+          <div class="tier-name">Pay-as-you-go</div>
+          <div class="tier-audience">For merchants &amp; payment aggregators</div>
+          <div class="tier-price">₹0.80–₹2 <span>/ transaction</span></div>
+          <div class="tier-desc">Tiered pricing based on transaction volume.</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Per-transaction settlement &amp; API fee</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Volume-based tiered pricing</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Merchant SDK &amp; gateway API access</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" onclick="openSubscriptionForm('payg')">Request access</a>
+        </div>
+        <div class="pricing-card featured">
+          <div class="ribbon">For node partners</div>
+          <div class="tier-name">Node Partner Subscription</div>
+          <div class="tier-audience">For banks &amp; payment aggregators</div>
+          <div class="tier-price">₹50K+ <span>/ month minimum</span></div>
+          <div class="tier-desc">Monthly fees for node hosting, managed KMS, and compliance reporting.</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Dedicated settlement node hosting</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Managed Key Management System (KMS)</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Compliance reporting services</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Pay-as-you-go</li>
+          </ul>
+          <a class="btn btn-primary btn-block" onclick="openSubscriptionForm('partner')">Talk to sales</a>
+        </div>
+        <div class="pricing-card">
+          <div class="tier-name">Premium Security</div>
+          <div class="tier-audience">For enterprise customers</div>
+          <div class="tier-price">Custom <span>SLA-based</span></div>
+          <div class="tier-desc">Higher-tier QKD-backed SLA for enterprise customers.</div>
+          <ul>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Quantum Key Distribution (QKD) links</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Highest-assurance key exchange</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Priority compliance &amp; audit support</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Node Partner Subscription</li>
+          </ul>
+          <a class="btn btn-ghost btn-block" onclick="openSubscriptionForm('premium')">Contact enterprise team</a>
+        </div>
+      </div>
+
+      <div class="addon-strip">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.4 5.4L3 18l3 3 6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8z"/></svg></div>
+        <div>
+          <h3 style="margin-bottom:3px;">Professional Services</h3>
+          <p style="font-size:13.5px;">Integration assistance, HSM provisioning, and compliance audit support — available as an add-on across all plans.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= ABOUT ================= -->
+<div class="page" id="page-about">
+  <section class="hero" style="padding:150px 0 60px;">
+    <div class="wrap" style="max-width:720px;">
+      <div class="eyebrow">About</div>
+      <h1>Building quantum-secure payment infrastructure for India.</h1>
+      <p class="lead" style="max-width:620px;">Let's collaborate to shape India's quantum-secure financial future.</p>
+    </div>
+  </section>
+  <section class="section" style="padding-top:0;">
+    <div class="wrap">
+      <div class="grid-2">
+        <div class="card">
+          <h3>Reach out to us</h3>
+          <p style="margin-top:10px;">Email: globalexpressgroup@gmail.com</p>
+          <p>Phone: +91 96505 60277 / +91 99101 96123</p>
+          <p style="margin-top:10px;">Headquartered in Mumbai, with presence in Bangalore and Delhi NCR.</p>
+        </div>
+        <div class="card">
+          <h3>Positioning</h3>
+          <p style="margin-top:10px;">QuantumSafePay is the first quantum-aware payment gateway, combining a regulated, permissioned ledger with post-quantum cryptography and an optional Quantum Key Distribution layer — built for customers who need long-term cryptographic assurance, not just today's compliance checkbox.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= REQUEST A DEMO ================= -->
+<div class="page" id="page-enquiry">
+  <div class="auth-wrap">
+    <div class="enquiry-layout" style="max-width:1040px;width:100%;">
+      <div><div class="eyebrow">Enterprise enquiry</div><h1>Bring secure settlement into focus.</h1><p class="lead" style="margin-top:18px;">Tell us about your organization and the payment infrastructure challenge you are solving. Our team can follow up with a product conversation.</p><div class="demo-note" style="margin-top:24px;color:var(--muted);background:rgba(63,211,240,.08);border-color:rgba(63,211,240,.24);">Demo enquiry only. This form does not process payments or create a production account.</div></div>
+      <form class="enquiry-form" onsubmit="return submitEnquiry(event)"><div class="form-grid"><div class="field"><label for="enqName">Full name</label><input id="enqName" required placeholder="Your name"></div><div class="field"><label for="enqCompany">Company</label><input id="enqCompany" required placeholder="Organization name"></div></div><div class="form-grid"><div class="field"><label for="enqEmail">Work email</label><input id="enqEmail" type="email" required placeholder="you@company.com"></div><div class="field"><label for="enqPhone">Phone</label><input id="enqPhone" type="tel" pattern="[0-9]{10}" placeholder="10-digit number"></div></div><div class="form-grid"><div class="field"><label for="enqType">Organization type</label><select id="enqType" required><option value="">Select type</option><option>Bank</option><option>Payment aggregator</option><option>Large merchant</option><option>Enterprise</option></select></div><div class="field"><label for="enqInterest">Area of interest</label><select id="enqInterest" required><option value="">Select area</option><option>Gateway integration</option><option>Node partnership</option><option>Security architecture</option><option>Premium Security</option></select></div></div><div class="field"><label for="enqPlan">Selected plan <span style="font-weight:400;color:var(--muted-2);">(optional)</span></label><select id="enqPlan"><option value="">General enquiry</option><option value="payg">Pay-as-you-go</option><option value="partner">Node Partner</option><option value="premium">Premium Security</option></select></div><div class="field"><label for="enqMessage">Message</label><textarea id="enqMessage" placeholder="What would you like to explore?"></textarea></div><button class="btn btn-primary btn-block" type="submit">Continue to form</button></form>
+    </div>
+  </div>
+</div>
+
+<!-- ================= LOGIN ================= -->
+<div class="page" id="page-login">
+  <div class="auth-wrap">
+    <div class="auth-card">
+      <h2>Welcome back</h2>
+      <p class="sub">Log in to your QuantumSafePay account.</p>
+      <div class="demo-note">Demo authentication only. Replace with a real authentication provider before production.</div>
+      <div class="auth-error" id="loginError"></div>
+      <form onsubmit="return handleLogin(event)">
+        <div class="field"><label>Email</label><input type="email" id="loginEmail" required placeholder="you@company.com"></div>
+        <div class="field"><label>Password</label><div style="position:relative;"><input type="password" id="loginPassword" required placeholder="Your password" style="padding-right:74px;"><button type="button" class="password-toggle" onclick="togglePassword('loginPassword',this)">Show</button></div></div>
+        <button class="btn btn-primary btn-block" type="submit">Log in</button>
+      </form>
+      <div class="auth-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>Your account is protected with quantum-safe encryption.</span></div>
+      <div class="auth-switch">New here? <a onclick="go('register')">Create an account</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= REGISTER ================= -->
+<div class="page" id="page-register">
+  <div class="auth-wrap">
+    <div class="auth-card" style="max-width:480px;">
+      <h2>Create your account</h2>
+      <p class="sub">Set up your organization's account and choose a plan.</p>
+      <div class="demo-note">Demo authentication only. No production account or payment is created.</div>
+      <div class="auth-error" id="registerError"></div>
+      <form onsubmit="return handleRegister(event)">
+        <div class="field"><label>Full name</label><input type="text" id="regName" required placeholder="e.g. Aarav Sharma"></div>
+        <div class="form-grid">
+          <div class="field"><label>Email</label><input type="email" id="regEmail" required placeholder="you@company.com"></div>
+          <div class="field"><label>Phone number</label><input type="tel" id="regPhone" required pattern="[0-9]{10}" maxlength="10" placeholder="10-digit number"></div>
+        </div>
+        <div class="field"><label>Organization / Company</label><input type="text" id="regCompany" required placeholder="e.g. Sunrise Bank Ltd."></div>
+        <div class="field"><label>Password</label><div style="position:relative;"><input type="password" id="regPassword" required minlength="6" placeholder="At least 6 characters" style="padding-right:74px;"><button type="button" class="password-toggle" onclick="togglePassword('regPassword',this)">Show</button></div></div>
+        <div class="field">
+          <label>Choose a plan</label>
+          <div class="plan-picker" id="regPlanPicker">
+            <div class="plan-option" data-plan="payg" onclick="pickPlan('payg')"><div class="nm">Pay-as-you-go</div><div class="pr">₹0.80–₹2/txn</div></div>
+            <div class="plan-option sel" data-plan="partner" onclick="pickPlan('partner')"><div class="nm">Node Partner</div><div class="pr">₹50K+/mo</div></div>
+            <div class="plan-option" data-plan="premium" onclick="pickPlan('premium')"><div class="nm">Premium Security</div><div class="pr">Custom</div></div>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit" style="margin-top:6px;">Create account</button>
+      </form>
+      <div class="auth-trust"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px;"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg><span>We never share your details. Encrypted end-to-end.</span></div>
+      <div class="auth-switch">Already have an account? <a onclick="go('login')">Log in</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= ACCOUNT ================= -->
+<div class="page" id="page-account">
+  <div class="account-shell">
+    <div class="account-head">
+      <div class="av" id="accAvatar">U</div>
+      <div>
+        <div style="font-weight:700;font-size:18px;color:var(--ink);" id="accName">—</div>
+        <span class="badge plan">Demo account</span>
+      </div>
+    </div>
+    <div class="panel-block">
+      <h3>Account details</h3>
+      <div class="detail-row"><span>Email</span><span id="accEmail"></span></div>
+      <div class="detail-row"><span>Phone</span><span id="accPhone"></span></div>
+      <div class="detail-row"><span>Organization</span><span id="accCompany"></span></div>
+    </div>
+    <div class="panel-block">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h3 style="margin-bottom:0;">Subscription plan</h3>
+        <span class="badge plan" id="accPlanBadge">—</span>
+      </div>
+      <div id="accPlanDetails"></div>
+      <a class="btn btn-ghost btn-sm" style="margin-top:16px;" onclick="go('pricing')">Change plan</a>
+    </div>
+    <div class="panel-block">
+      <h3>Status</h3>
+      <div class="account-status"><p style="font-size:13.5px;">Demo / Not Activated. Your details are saved locally for this prototype. Our team will reach out to discuss onboarding, sandbox access, and compliance documentation for your selected plan.</p></div>
+    </div>
+    <a class="btn btn-ghost" onclick="logout()">Log out</a>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-logo"><div style="background:#fff;border-radius:8px;padding:4px 6px;display:flex;align-items:center;"><img src="./assets/quantum.jpeg" alt="QuantumSafePay"></div></div>
+          <p style="font-size:13.5px;max-width:280px;">A permissioned blockchain payment gateway engineered for India's regulated digital financial ecosystem.</p>
+        </div>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a onclick="go('solution')">Platform</a>
+        <a onclick="go('home')">Home</a>
+        <a onclick="go('solution')">Solution</a>
+        <a onclick="go('security')">Security &amp; Compliance</a>
+        <a onclick="go('pricing')">Subscription</a>
+        <a onclick="go('about')">About</a>
+        <a onclick="go('enquiry')">Request a demo</a>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <li>globalexpressgroup@gmail.com</li>
+        <li>+91 96505 60277</li>
+        <li>Mumbai · Bangalore · Delhi NCR</li>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 QuantumSafePay. All rights reserved.</span>
+      <span>Permissioned blockchain · Post-quantum cryptography.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------------- icons (static content only; dynamic ic object not needed post-simplification) ---------------- */
+
+/* ---------------- routing ---------------- */
+function go(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('nav.primary a').forEach(a=>a.classList.toggle('active', a.dataset.page===page));
+  window.scrollTo({top:0, behavior:'instant'});
+  if(page==='account'){ refreshAccount(); }
+  const mm = document.getElementById('mobileMenu'); if(mm) mm.classList.remove('open');
+  return false;
+}
+function goSection(page, sectionId){
+  go(page);
+  setTimeout(()=>{
+    const section = document.getElementById(sectionId);
+    if(section){
+      const headerOffset = document.querySelector('header').offsetHeight + 16;
+      const targetTop = section.getBoundingClientRect().top + window.scrollY - headerOffset;
+      window.scrollTo(0, targetTop);
+    }
+    document.querySelectorAll('nav.primary a').forEach(a=>a.classList.toggle('active', a.dataset.page===sectionId));
+  }, 0);
+}
+function toggleMobileMenu(){ document.getElementById('mobileMenu').classList.toggle('open'); }
+
+function togglePassword(inputId, button){
+  const input = document.getElementById(inputId);
+  input.type = input.type === 'password' ? 'text' : 'password';
+  button.textContent = input.type === 'password' ? 'Show' : 'Hide';
+}
+
+function submitEnquiry(e){
+  e.preventDefault();
+  const selectedPlan = document.getElementById('enqPlan').value;
+  const values = {
+    name: document.getElementById('enqName').value.trim(),
+    company: document.getElementById('enqCompany').value.trim(),
+    email: document.getElementById('enqEmail').value.trim(),
+    phone: document.getElementById('enqPhone').value.trim(),
+    organizationType: document.getElementById('enqType').value,
+    interest: document.getElementById('enqInterest').value,
+    enquiryType: document.getElementById('enqType').value,
+    subject: document.getElementById('enqInterest').value,
+    selectedPlan,
+    message: document.getElementById('enqMessage').value.trim()
+  };
+  const form = selectedPlan ? SUBSCRIPTION_FORM : ENQUIRY_FORM;
+  const url = buildGoogleFormUrl(form, values);
+  if(!url){ showToast('Form URL is ready to configure'); return false; }
+  window.open(url, '_blank', 'noopener');
+  return false;
+}
+
+/* Replace these placeholders with the live Google Form URLs and entry IDs. */
+const SUBSCRIPTION_FORM_URL = '';
+const SUBSCRIPTION_FORM_ENTRY_IDS = {name:'', email:'', phone:'', company:'', selectedPlan:''};
+const ENQUIRY_FORM_URL = '';
+const ENQUIRY_FORM_ENTRY_IDS = {name:'', email:'', phone:'', company:'', enquiryType:'', subject:'', message:''};
+const SUBSCRIPTION_FORM = {url:SUBSCRIPTION_FORM_URL, fields:SUBSCRIPTION_FORM_ENTRY_IDS};
+const ENQUIRY_FORM = {url:ENQUIRY_FORM_URL, fields:ENQUIRY_FORM_ENTRY_IDS};
+
+function buildGoogleFormUrl(form, values){
+  if(!form.url) return '';
+  const params = new URLSearchParams();
+  Object.entries(form.fields).forEach(([name, entryId])=>{
+    if(entryId && values[name]) params.set(`entry.${entryId}`, values[name]);
+  });
+  params.set('usp','pp_url');
+  return `${form.url}${form.url.includes('?') ? '&' : '?'}${params.toString()}`;
+}
+
+function openSubscriptionForm(plan){
+  go('enquiry');
+  setTimeout(()=>{ document.getElementById('enqPlan').value = plan; }, 0);
+}
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="width:15px;height:15px;stroke:var(--cyan);"><path d="M20 6 9 17l-5-5"/></svg><span>'+msg+'</span>';
+  t.classList.add('show');
+  clearTimeout(window._toastTimer);
+  window._toastTimer = setTimeout(()=>t.classList.remove('show'), 2800);
+}
+
+/* ---------------- plan picker on register form ---------------- */
+let selectedRegPlan = 'partner';
+function pickPlan(planId){
+  selectedRegPlan = planId;
+  document.querySelectorAll('#regPlanPicker .plan-option').forEach(el=>{
+    el.classList.toggle('sel', el.dataset.plan===planId);
+  });
+}
+function selectPlanAndRegister(planId){
+  go('register');
+  setTimeout(()=>pickPlan(planId), 20);
+}
+
+const planInfo = {
+  payg: {name:'Pay-as-you-go', price:'₹0.80–₹2 per transaction', desc:'Tiered pricing based on transaction volume. Ideal for merchants and payment aggregators getting started.'},
+  partner: {name:'Node Partner Subscription', price:'₹50K+ per month minimum', desc:'Includes dedicated settlement node hosting, managed KMS, and compliance reporting for banks and payment aggregators.'},
+  premium: {name:'Premium Security', price:'Custom, SLA-based', desc:'Higher-tier QKD-backed SLA for enterprise customers who need the highest assurance key exchange.'}
+};
+
+/* DEMO AUTH ONLY — replace with a real authentication provider before production. */
+/* ---------------- auth ---------------- */
+let currentUser = null;
+function slugKey(email){ return email.trim().toLowerCase(); }
+
+async function handleRegister(e){
+  e.preventDefault();
+  const name = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const company = document.getElementById('regCompany').value.trim();
+  const password = document.getElementById('regPassword').value;
+  const key = 'user:' + slugKey(email);
+  const errEl = document.getElementById('registerError');
+  errEl.classList.remove('show');
+  if(!/^[0-9]{10}$/.test(phone)){ errEl.textContent='Enter a valid 10-digit phone number.'; errEl.classList.add('show'); return false; }
+  if(password.length < 6){ errEl.textContent='Password must be at least 6 characters.'; errEl.classList.add('show'); return false; }
+  try{
+    let existing = null;
+    try{ existing = await window.storage.get(key, false); }catch(_){ existing = null; }
+    if(existing){ errEl.textContent='An account with this email already exists. Try logging in.'; errEl.classList.add('show'); return false; }
+    const userObj = {name, email, phone, company, password, plan: selectedRegPlan, createdAt: Date.now()};
+    await window.storage.set(key, JSON.stringify(userObj), false);
+    await window.storage.set('session:current', email, false);
+    currentUser = userObj;
+    showToast('Account created — welcome to QuantumSafePay');
+    updateNavForAuth();
+    go('account');
+  }catch(err){
+    errEl.textContent='Something went wrong creating your account. Please try again.'; errEl.classList.add('show');
+  }
+  return false;
+}
+
+async function handleLogin(e){
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const key = 'user:' + slugKey(email);
+  const errEl = document.getElementById('loginError');
+  errEl.classList.remove('show');
+  try{
+    let existing = null;
+    try{ existing = await window.storage.get(key, false); }catch(_){ existing = null; }
+    if(!existing){ errEl.textContent='No account found with that email.'; errEl.classList.add('show'); return false; }
+    const userObj = JSON.parse(existing.value);
+    if(userObj.password !== password){ errEl.textContent='Incorrect password.'; errEl.classList.add('show'); return false; }
+    await window.storage.set('session:current', email, false);
+    currentUser = userObj;
+    showToast('Welcome back, ' + userObj.name.split(' ')[0]);
+    updateNavForAuth();
+    go('account');
+  }catch(err){
+    errEl.textContent='Something went wrong logging in. Please try again.'; errEl.classList.add('show');
+  }
+  return false;
+}
+
+async function logout(){
+  try{ await window.storage.delete('session:current', false); }catch(_){}
+  currentUser = null;
+  updateNavForAuth();
+  go('home');
+  showToast('Logged out');
+}
+
+function updateNavForAuth(){
+  const loggedIn = !!currentUser;
+  const legacyAuthElements = ['navAccountLink','navLoginBtn','navRegisterBtn','navUserChip','mobAccount','mobLogin','mobRegister','mobLogout'];
+  legacyAuthElements.forEach(id=>{ const element = document.getElementById(id); if(element) element.style.display = 'none'; });
+  if(loggedIn){
+    const avatar = document.getElementById('navAvatar');
+    const name = document.getElementById('navUserName');
+    if(avatar && name){
+      const initials = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+      avatar.textContent = initials;
+      name.textContent = currentUser.name.split(' ')[0];
+    }
+  }
+}
+
+async function tryAutoLogin(){
+  try{
+    const sess = await window.storage.get('session:current', false);
+    if(sess && sess.value){
+      const u = await window.storage.get('user:' + slugKey(sess.value), false);
+      if(u && u.value){ currentUser = JSON.parse(u.value); updateNavForAuth(); }
+    }
+  }catch(_){ /* no session yet */ }
+}
+
+async function saveCurrentUser(){
+  await window.storage.set('user:' + slugKey(currentUser.email), JSON.stringify(currentUser), false);
+}
+
+function refreshAccount(){
+  if(!currentUser){ go('login'); return; }
+  document.getElementById('accName').textContent = currentUser.name;
+  document.getElementById('accEmail').textContent = currentUser.email;
+  document.getElementById('accPhone').textContent = currentUser.phone;
+  document.getElementById('accCompany').textContent = currentUser.company;
+  document.getElementById('accAvatar').textContent = currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  const p = planInfo[currentUser.plan] || planInfo.partner;
+  document.getElementById('accPlanBadge').textContent = p.name;
+  document.getElementById('accPlanDetails').innerHTML = `<div class="detail-row"><span>Price</span><span>${p.price}</span></div><p style="font-size:13.5px;margin-top:10px;">${p.desc}</p>`;
+}
+
+/* ---------------- reveal on scroll ---------------- */
+function initReveal(){
+  const els = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(en=>{ if(en.isIntersecting){ en.target.classList.add('in'); io.unobserve(en.target); } });
+  }, {threshold:0.2});
+  els.forEach(el=>io.observe(el));
+}
+
+/* ---------------- init ---------------- */
+(async function init(){
+  await tryAutoLogin();
+  initReveal();
+  go('home');
+})();
+</script>
+</body>
+</html>
