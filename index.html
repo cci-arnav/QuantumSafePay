@@ -264,7 +264,7 @@ footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:56px 0 26p
 .security-section{background:var(--navy-900);color:#fff;overflow:hidden;}.security-section h2,.security-section h3{color:#fff;}.security-section p{color:rgba(255,255,255,.64);}.security-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:60px;align-items:center;}.security-list{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:26px;}.security-item{padding:16px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.05);border-radius:10px;}.security-item strong{display:block;font-size:13px;color:#fff;}.security-item span{display:block;font-size:11px;color:rgba(255,255,255,.5);margin-top:4px;}.security-orbit{min-height:300px;display:grid;place-items:center;position:relative;border:1px solid rgba(63,211,240,.2);border-radius:50%;width:min(300px,80vw);margin:auto;}.security-orbit:before,.security-orbit:after{content:'';position:absolute;border:1px solid rgba(63,211,240,.2);border-radius:50%;}.security-orbit:before{inset:22px}.security-orbit:after{inset:64px}.orbit-core{z-index:2;width:100px;height:100px;display:grid;place-items:center;text-align:center;border-radius:50%;background:var(--grad-brand);color:#fff;font:700 11px var(--font-mono);box-shadow:0 0 40px rgba(63,211,240,.32);}.orbit-tag{position:absolute;color:var(--cyan);font:10px var(--font-mono);}.orbit-tag.a{top:17px}.orbit-tag.b{right:0}.orbit-tag.c{bottom:17px}.orbit-tag.d{left:0;}
 .steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;position:relative;}.steps:before{content:'';position:absolute;top:19px;left:8%;right:8%;height:1px;background:var(--line-strong);}.step{position:relative;text-align:center;padding:0 10px;}.step-num{width:38px;height:38px;display:grid;place-items:center;margin:0 auto 18px;background:var(--bg);border:1px solid var(--blue);border-radius:50%;color:var(--blue-deep);font:600 11px var(--font-mono);position:relative;z-index:1;}.step h3{font-size:14px;margin-bottom:6px;}.step p{font-size:12px;}
 .audience-card{min-height:210px;display:flex;flex-direction:column;justify-content:space-between;}.audience-card .audience-mark{font:700 12px var(--font-mono);color:var(--blue);}
-.enquiry-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start;}.enquiry-form{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:var(--shadow-md);}.enquiry-form textarea{font-family:inherit;min-height:110px;resize:vertical;}.field input,.field select,.field textarea{width:100%;}.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--blue-deep);font-size:12px;font-weight:700;cursor:pointer;padding:5px;}
+.enquiry-layout{display:grid;grid-template-columns:.8fr 1.2fr;gap:56px;align-items:start;}.enquiry-form{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px;box-shadow:var(--shadow-md);}.enquiry-form textarea{font-family:inherit;min-height:110px;resize:vertical;}.field input,.field select,.field textarea{width:100%;}.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);border:0;background:transparent;color:var(--blue-deep);font-size:12px;font-weight:700;cursor:pointer;padding:5px;}.form-consent{display:flex;align-items:flex-start;gap:9px;margin:4px 0 18px;font-size:12px;color:var(--muted);}.form-consent input{width:auto;margin-top:3px;flex-shrink:0;}.is-loading{opacity:.7;pointer-events:none;}
 .account-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:20px;}.account-status{border-left:3px solid var(--cyan);padding-left:16px;}.demo-note{font-size:11.5px;color:var(--warn);background:var(--warn-bg);border:1px solid rgba(185,130,10,.22);padding:10px 12px;border-radius:8px;margin:0 0 18px;}
 @media(max-width:900px){.hero-grid,.security-grid,.enquiry-layout{grid-template-columns:1fr;gap:34px;}.hero{min-height:auto;}.hero-visual{max-width:620px;}.architecture-main{grid-template-columns:1fr;gap:14px;}.arch-connector{width:1px;height:20px;margin:auto;background:linear-gradient(180deg,transparent,var(--cyan),transparent);}.arch-connector:after{left:-3px;top:5%;animation:signalVertical 2.8s linear infinite;}.tech-grid{grid-template-columns:repeat(2,1fr);}.steps{grid-template-columns:1fr;gap:22px;text-align:left;}.steps:before{top:18px;bottom:18px;left:19px;right:auto;width:1px;height:auto;}.step{display:grid;grid-template-columns:38px 1fr;column-gap:16px;text-align:left;padding:0;}.step-num{grid-row:span 2;margin:0;}.step h3{align-self:end;}.step p{align-self:start;} }
 @keyframes signalVertical{0%{top:5%;opacity:0}15%,85%{opacity:1}100%{top:85%;opacity:0}}
@@ -510,7 +510,7 @@ footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:56px 0 26p
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Volume-based tiered pricing</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Merchant SDK &amp; gateway API access</li>
           </ul>
-          <a class="btn btn-ghost btn-block" onclick="openSubscriptionForm('payg')">Request access</a>
+          <a class="btn btn-ghost btn-block" onclick="openSubscriptionForm('Pay-as-you-go')">Request access</a>
         </div>
         <div class="pricing-card featured">
           <div class="ribbon">For node partners</div>
@@ -524,7 +524,7 @@ footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:56px 0 26p
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Compliance reporting services</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Pay-as-you-go</li>
           </ul>
-          <a class="btn btn-primary btn-block" onclick="openSubscriptionForm('partner')">Talk to sales</a>
+          <a class="btn btn-primary btn-block" onclick="openSubscriptionForm('Node Partner Subscription')">Talk to sales</a>
         </div>
         <div class="pricing-card">
           <div class="tier-name">Premium Security</div>
@@ -537,7 +537,7 @@ footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:56px 0 26p
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Priority compliance &amp; audit support</li>
             <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Everything in Node Partner Subscription</li>
           </ul>
-          <a class="btn btn-ghost btn-block" onclick="openSubscriptionForm('premium')">Contact enterprise team</a>
+          <a class="btn btn-ghost btn-block" onclick="openSubscriptionForm('Premium Security')">Contact enterprise team</a>
         </div>
       </div>
 
@@ -579,12 +579,31 @@ footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:56px 0 26p
   </section>
 </div>
 
+<!-- ================= SUBSCRIPTION / ONBOARDING FORM ================= -->
+<div class="page" id="page-subscription-form">
+  <div class="auth-wrap">
+    <div class="enquiry-layout" style="max-width:1040px;width:100%;">
+      <div><div class="eyebrow">Subscription onboarding</div><h1>Choose your protection path.</h1><p class="lead" style="margin-top:18px;">Share a few details and continue to the secure Google Form to review your application before submitting it.</p><div class="demo-note" style="margin-top:24px;color:var(--muted);background:rgba(63,211,240,.08);border-color:rgba(63,211,240,.24);">Your details are validated here first. No payment is processed on this website.</div></div>
+      <form class="enquiry-form" id="subscriptionForm" onsubmit="return submitSubscription(event)">
+        <div class="field"><label for="subPlan">Selected plan</label><select id="subPlan" required><option value="">Select plan</option><option>Pay-as-you-go</option><option>Node Partner Subscription</option><option>Premium Security</option></select></div>
+        <div class="form-grid"><div class="field"><label for="subName">Full name</label><input id="subName" required placeholder="Your name"></div><div class="field"><label for="subCompany">Company / organization</label><input id="subCompany" required placeholder="Organization name"></div></div>
+        <div class="form-grid"><div class="field"><label for="subType">Organization type</label><select id="subType" required><option value="">Select type</option><option>Bank</option><option>Payment aggregator</option><option>Large merchant</option><option>Enterprise</option></select></div><div class="field"><label for="subEmail">Work email</label><input id="subEmail" type="email" required placeholder="you@company.com"></div></div>
+        <div class="form-grid"><div class="field"><label for="subPhone">Phone number</label><input id="subPhone" type="tel" pattern="[0-9]{10}" maxlength="10" required placeholder="10-digit number"></div><div class="field"><label for="subVolume">Approximate transaction volume</label><input id="subVolume" required placeholder="e.g. 100,000 / month"></div></div>
+        <div class="field"><label for="subInterest">What are you primarily interested in?</label><input id="subInterest" required placeholder="e.g. Gateway integration"></div>
+        <div class="field"><label for="subRequirement">Tell us about your requirement</label><textarea id="subRequirement" required placeholder="Tell us what you are evaluating."></textarea></div>
+        <label class="form-consent"><input id="subConsent" type="checkbox" required><span>I consent to QuantumSafePay using these details to respond to this enquiry.</span></label>
+        <button class="btn btn-primary btn-block" type="submit">Continue to Google Form</button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <!-- ================= REQUEST A DEMO ================= -->
 <div class="page" id="page-enquiry">
   <div class="auth-wrap">
     <div class="enquiry-layout" style="max-width:1040px;width:100%;">
       <div><div class="eyebrow">Enterprise enquiry</div><h1>Bring secure settlement into focus.</h1><p class="lead" style="margin-top:18px;">Tell us about your organization and the payment infrastructure challenge you are solving. Our team can follow up with a product conversation.</p><div class="demo-note" style="margin-top:24px;color:var(--muted);background:rgba(63,211,240,.08);border-color:rgba(63,211,240,.24);">Demo enquiry only. This form does not process payments or create a production account.</div></div>
-      <form class="enquiry-form" onsubmit="return submitEnquiry(event)"><div class="form-grid"><div class="field"><label for="enqName">Full name</label><input id="enqName" required placeholder="Your name"></div><div class="field"><label for="enqCompany">Company</label><input id="enqCompany" required placeholder="Organization name"></div></div><div class="form-grid"><div class="field"><label for="enqEmail">Work email</label><input id="enqEmail" type="email" required placeholder="you@company.com"></div><div class="field"><label for="enqPhone">Phone</label><input id="enqPhone" type="tel" pattern="[0-9]{10}" placeholder="10-digit number"></div></div><div class="form-grid"><div class="field"><label for="enqType">Organization type</label><select id="enqType" required><option value="">Select type</option><option>Bank</option><option>Payment aggregator</option><option>Large merchant</option><option>Enterprise</option></select></div><div class="field"><label for="enqInterest">Area of interest</label><select id="enqInterest" required><option value="">Select area</option><option>Gateway integration</option><option>Node partnership</option><option>Security architecture</option><option>Premium Security</option></select></div></div><div class="field"><label for="enqPlan">Selected plan <span style="font-weight:400;color:var(--muted-2);">(optional)</span></label><select id="enqPlan"><option value="">General enquiry</option><option value="payg">Pay-as-you-go</option><option value="partner">Node Partner</option><option value="premium">Premium Security</option></select></div><div class="field"><label for="enqMessage">Message</label><textarea id="enqMessage" placeholder="What would you like to explore?"></textarea></div><button class="btn btn-primary btn-block" type="submit">Continue to form</button></form>
+      <form class="enquiry-form" id="enquiryForm" onsubmit="return submitEnquiry(event)"><div class="form-grid"><div class="field"><label for="enqName">Full name</label><input id="enqName" required placeholder="Your name"></div><div class="field"><label for="enqCompany">Company</label><input id="enqCompany" required placeholder="Organization name"></div></div><div class="form-grid"><div class="field"><label for="enqEmail">Work email</label><input id="enqEmail" type="email" required placeholder="you@company.com"></div><div class="field"><label for="enqPhone">Phone</label><input id="enqPhone" type="tel" pattern="[0-9]{10}" placeholder="10-digit number"></div></div><div class="form-grid"><div class="field"><label for="enqAs">I am enquiring as</label><select id="enqAs" required><option value="">Select type</option><option>Merchant</option><option>Payment Aggregator</option><option>Bank / Financial Institution</option><option>Enterprise</option><option>Government / Public Sector</option><option>Technology Partner</option><option>Investor</option><option>Other</option></select></div><div class="field"><label for="enqType">Enquiry type</label><select id="enqType" required><option value="">Select enquiry</option><option>Product / Solution Enquiry</option><option>Subscription / Pricing</option><option>Payment Gateway / API</option><option>Partnership</option><option>Enterprise Security</option><option>Integration / Technical</option><option>Compliance &amp; Regulatory</option><option>Investment / Funding</option><option>General Enquiry</option><option>Other</option></select></div></div><div class="field"><label for="enqSubject">Subject</label><input id="enqSubject" required placeholder="What can we help with?"></div><div class="field"><label for="enqMessage">Message</label><textarea id="enqMessage" required placeholder="Tell us what you would like to explore."></textarea></div><div class="form-grid"><div class="field"><label for="enqContact">Preferred contact method</label><select id="enqContact" required><option value="">Select method</option><option>Email</option><option>Phone</option><option>Either</option></select></div><div></div></div><label class="form-consent"><input id="enqConsent" type="checkbox" required><span>I consent to QuantumSafePay using these details to respond to my enquiry.</span></label><button class="btn btn-primary btn-block" type="submit">Continue to Google Form</button></form>
     </div>
   </div>
 </div>
@@ -742,47 +761,110 @@ function togglePassword(inputId, button){
 
 function submitEnquiry(e){
   e.preventDefault();
-  const selectedPlan = document.getElementById('enqPlan').value;
+  const submitButton = e.target.querySelector('button[type="submit"]');
+  if(submitButton.disabled || !e.target.checkValidity()) return false;
+  setFormLoading(submitButton, 'Preparing your enquiry...');
   const values = {
-    name: document.getElementById('enqName').value.trim(),
+    fullName: document.getElementById('enqName').value.trim(),
     company: document.getElementById('enqCompany').value.trim(),
     email: document.getElementById('enqEmail').value.trim(),
     phone: document.getElementById('enqPhone').value.trim(),
-    organizationType: document.getElementById('enqType').value,
-    interest: document.getElementById('enqInterest').value,
+    enquiringAs: document.getElementById('enqAs').value,
     enquiryType: document.getElementById('enqType').value,
-    subject: document.getElementById('enqInterest').value,
-    selectedPlan,
-    message: document.getElementById('enqMessage').value.trim()
+    subject: document.getElementById('enqSubject').value.trim(),
+    message: document.getElementById('enqMessage').value.trim(),
+    preferredContact: document.getElementById('enqContact').value,
+    consent: 'Yes'
   };
-  const form = selectedPlan ? SUBSCRIPTION_FORM : ENQUIRY_FORM;
-  const url = buildGoogleFormUrl(form, values);
-  if(!url){ showToast('Form URL is ready to configure'); return false; }
-  window.open(url, '_blank', 'noopener');
+  console.log('Enquiring As:', values.enquiringAs);
+  console.log('Enquiry Type:', values.enquiryType);
+  const googleFormUrl = buildGoogleFormUrl(ENQUIRY_FORM, values);
+  if(!isValidGoogleFormUrl(googleFormUrl)) return false;
+  console.log('Google Form URL:', googleFormUrl);
+  window.location.href = googleFormUrl;
   return false;
 }
 
-/* Replace these placeholders with the live Google Form URLs and entry IDs. */
-const SUBSCRIPTION_FORM_URL = '';
-const SUBSCRIPTION_FORM_ENTRY_IDS = {name:'', email:'', phone:'', company:'', selectedPlan:''};
-const ENQUIRY_FORM_URL = '';
-const ENQUIRY_FORM_ENTRY_IDS = {name:'', email:'', phone:'', company:'', enquiryType:'', subject:'', message:''};
-const SUBSCRIPTION_FORM = {url:SUBSCRIPTION_FORM_URL, fields:SUBSCRIPTION_FORM_ENTRY_IDS};
-const ENQUIRY_FORM = {url:ENQUIRY_FORM_URL, fields:ENQUIRY_FORM_ENTRY_IDS};
+const GOOGLE_FORMS = {
+  subscription: {
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSdOIgpYiIp-XKsBC1RSDh_XeHHScE8pgjH4WjlvR2x-Q7vkFw/viewform',
+    fields: {
+      selectedPlan: 'entry.79118715', fullName: 'entry.180933386', company: 'entry.939187187', organizationType: 'entry.1068285142',
+      email: 'entry.207341824', phone: 'entry.1264928231', transactionVolume: 'entry.897719669', interests: 'entry.968009816',
+      requirement: 'entry.1059789783', consent: 'entry.1284130010'
+    }
+  },
+  enquiry: {
+    url: 'https://docs.google.com/forms/d/e/1FAIpQLSeT_cWkvMigCbpX1egdN9wnD-cfdMwt9qYpWeSB-ARghWcktA/viewform',
+    fields: {
+      fullName: 'entry.2005620554', company: 'entry.1045781291', email: 'entry.1065046570', phone: 'entry.1166974658',
+      enquiringAs: 'entry.839337160', enquiryType: 'entry.936807469', subject: 'entry.1954935084', message: 'entry.1355560918',
+      preferredContact: 'entry.275861917', consent: 'entry.181006172'
+    }
+  }
+};
+const SUBSCRIPTION_FORM = GOOGLE_FORMS.subscription;
+const ENQUIRY_FORM = GOOGLE_FORMS.enquiry;
 
 function buildGoogleFormUrl(form, values){
   if(!form.url) return '';
-  const params = new URLSearchParams();
+  const params = new URLSearchParams({usp:'pp_url'});
   Object.entries(form.fields).forEach(([name, entryId])=>{
-    if(entryId && values[name]) params.set(`entry.${entryId}`, values[name]);
+    const value = values[name];
+    if(!entryId || value === undefined || value === null || value === '') return;
+    const valuesToAppend = Array.isArray(value) ? value : [value];
+    valuesToAppend.forEach(item=>{ if(item !== '') params.append(entryId, item); });
   });
-  params.set('usp','pp_url');
   return `${form.url}${form.url.includes('?') ? '&' : '?'}${params.toString()}`;
 }
 
 function openSubscriptionForm(plan){
-  go('enquiry');
-  setTimeout(()=>{ document.getElementById('enqPlan').value = plan; }, 0);
+  go('subscription-form');
+  setTimeout(()=>{ document.getElementById('subPlan').value = plan; }, 0);
+}
+
+function submitSubscription(e){
+  e.preventDefault();
+  const submitButton = e.target.querySelector('button[type="submit"]');
+  if(submitButton.disabled || !e.target.checkValidity()) return false;
+  setFormLoading(submitButton, 'Preparing your application...');
+  const values = {
+    selectedPlan: document.getElementById('subPlan').value,
+    fullName: document.getElementById('subName').value.trim(),
+    company: document.getElementById('subCompany').value.trim(),
+    organizationType: document.getElementById('subType').value,
+    email: document.getElementById('subEmail').value.trim(),
+    phone: document.getElementById('subPhone').value.trim(),
+    transactionVolume: document.getElementById('subVolume').value.trim(),
+    interests: document.getElementById('subInterest').value.trim(),
+    requirement: document.getElementById('subRequirement').value.trim(),
+    consent: 'Yes'
+  };
+  const googleFormUrl = buildGoogleFormUrl(SUBSCRIPTION_FORM, values);
+  if(!isValidGoogleFormUrl(googleFormUrl)) return false;
+  console.log('Google Form URL:', googleFormUrl);
+  window.location.href = googleFormUrl;
+  return false;
+}
+
+function isValidGoogleFormUrl(url){
+  try{
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' && parsed.hostname === 'docs.google.com';
+  }catch(_){
+    return false;
+  }
+}
+
+function setFormLoading(button, label){
+  button.disabled = true;
+  button.dataset.originalLabel = button.textContent;
+  button.textContent = label;
+  button.classList.add('is-loading');
+}
+
+function finishFormLoading(button, label){
+  setTimeout(()=>{ button.disabled = false; button.textContent = label; button.classList.remove('is-loading'); }, 700);
 }
 
 function showToast(msg){
